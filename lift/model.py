@@ -123,6 +123,8 @@ def load_model(
             Use 8bit quantization. NOT IMPLEMENTED! Defaults to False.
         vocab_size (`int`, *optional*):
             The vocabulary size. The model will adapt to the vocabulary size. Defaults to None.
+        use_gated_memory (`bool`, *optional*):
+            Use Gated Memory adapter. Defaults to False.
     Returns:
         model (`transformers.PreTrainedModel`): the model to train.
     """
