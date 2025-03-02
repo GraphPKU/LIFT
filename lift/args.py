@@ -78,7 +78,6 @@ class CustomTrainingArguments:
     )
     
     def __post_init__(self):
-        assert not self.load_in_8bit, "8-bit loading is not supported yet."
         if self.use_pissa:
             assert self.use_lora, "LoRA must be enabled when using PiSSA."
         assert int(self.use_gated_memory) + int(self.use_lora) <= 1, "LoRA and the gated-memory technique cannot be used simultaneously."
