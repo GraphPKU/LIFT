@@ -4,6 +4,8 @@
 
 Long context understanding remains challenging for large language models due to their limited context windows. This paper presents Long Input Fine-Tuning (LIFT), a novel framework for long-context modeling that can improve the long-context performance of arbitrary (short-context) LLMs by dynamically adapting model parameters based on the long input. Importantly, LIFT, rather than endlessly extending the context window size to accommodate increasingly longer inputs in context, chooses to store and absorb the long input in parameter. By fine-tuning the long input into model parameters, LIFT allows short-context LLMs to answer questions even when the required information is not provided in the context during inference. Furthermore, to enhance LIFT performance while maintaining the original in-context learning (ICL) capabilities, we introduce Gated Memory, a specialized attention adapter that automatically balances long input memorization and ICL. We provide a comprehensive analysis of the strengths and limitations of LIFT on long context understanding, offering valuable directions for future research.
 
+![method](assets/method.png)
+
 ## Quick start: apply LIFT to your models
 
 We recommend **using LIFT with LoRA** first, before exploring our Gated Memory adapter, since our implementation of Gated Memory is based on Llama and applying LoRA is much more easier.
@@ -107,3 +109,37 @@ output = model.generate(
 )
 response = tokenizer.decode(output[0][input_ids.shape[-1]:], skip_special_tokens=True)
 ```
+
+## Reproduce the results
+
+We provide the scripts we used to evaluate LIFT in `shells`, which are detailed as following.
+
+### Main results
+
+![LooGLE main results](assets/main_loogle.png)
+
+| Model   | Method | Subtask | Script path                                |
+|:-------:|:------:|:-------:|:------------------------------------------:|
+| Llama 3 | ICL    | ShortQA | `shells/LooGLE_main/Llama-ICL-ShortQA.sh`  |
+| Llama 3 | ICL    | LongQA  | `shells/LooGLE_main/Llama-ICL-LongQA.sh`   |
+| Llama 3 | LIFT   | ShortQA | `shells/LooGLE_main/Llama-LIFT-ShortQA.sh` |
+| Llama 3 | LIFT   | LongQA  | `shells/LooGLE_main/Llama-LIFT-LongQA.sh`  |
+| Gemma 2 | ICL    | ShortQA | `shells/LooGLE_main/Gemma-ICL-ShortQA.sh`  |
+| Gemma 2 | ICL    | LongQA  | `shells/LooGLE_main/Gemma-ICL-LongQA.sh`   |
+| Gemma 2 | LIFT   | ShortQA | `shells/LooGLE_main/Gemma-LIFT-ShortQA.sh` |
+| Gemma 2 | LIFT   | LongQA  | `shells/LooGLE_main/Gemma-LIFT-LongQA.sh`  |
+
+![LongBench main results](assets/main_longbench.png)
+
+| Model   | Method | Subtask            | Script path                                                |
+|:-------:|:------:|:------------------:|:----------------------------------------------------------:|
+| Llama 3 | ICL    | GovReport          | `shells/LongBench_main/Llama-ICL-gov_report.sh`            |
+| Llama 3 | ICL    | Musique            | `shells/LongBench_main/Llama-ICL-musique.sh`               |
+| Llama 3 | ICL    | Narrativeqa        | `shells/LongBench_main/Llama-ICL-narrativeqa.sh`           |
+| Llama 3 | ICL    | PassageRetrievalEN | `shells/LongBench_main/Llama-ICL-passage_retrieval_en.sh`  |
+| Llama 3 | ICL    | Qmsum              | `shells/LongBench_main/Llama-ICL-qmsum.sh`                 |
+| Llama 3 | LIFT   | GovReport          | `shells/LongBench_main/Llama-LIFT-gov_report.sh`           |
+| Llama 3 | LIFT   | Musique            | `shells/LongBench_main/Llama-LIFT-musique.sh`              |
+| Llama 3 | LIFT   | Narrativeqa        | `shells/LongBench_main/Llama-LIFT-narrativeqa.sh`          |
+| Llama 3 | LIFT   | PassageRetrievalEN | `shells/LongBench_main/Llama-LIFT-passage_retrieval_en.sh` |
+| Llama 3 | LIFT   | Qmsum              | `shells/LongBench_main/Llama-LIFT-qmsum.sh`                |
