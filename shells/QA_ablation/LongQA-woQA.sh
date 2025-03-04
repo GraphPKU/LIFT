@@ -2,10 +2,11 @@ python scripts/mp_wrapper.py \
     --script scripts/test_loogle_lift_random_icl_prompt.py \
     --num_process 6 \
     --input_file datasets/loogle/shortdep_qa.jsonl \
-    --output_file outputs/main_shortqa_qa10.jsonl \
+    --output_file outputs/LooGLE-ShortQA-rICL-C3M5.jsonl \
     --subprocess_args \
-    --overwrite False \
-    --num_syn_qa 10 \
+    --use_icl True \
+    --overwrite True \
+    --num_syn_qa 0 \
     --title_option 1 \
     --generator_name_or_path models/Meta-Llama-3-8B-Instruct \
     --model_name_or_path models/Gated-Memory-Llama-3-8B-Instruct \
@@ -39,3 +40,4 @@ python scripts/mp_wrapper.py \
     --tf32 False \
     --gradient_checkpointing True \
     --lr_scheduler_type constant
+

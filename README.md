@@ -8,7 +8,7 @@ Long context understanding remains challenging for large language models due to 
 
 ## Quick start: apply LIFT to your models
 
-We recommend **using LIFT with LoRA** first, before exploring our Gated Memory adapter, since our implementation of Gated Memory is based on Llama and applying LoRA is much more easier.
+We recommend **using LIFT with LoRA** first, before exploring our Gated Memory adapter, since our implementation of Gated Memory is based on Llama and applying LoRA is much easier.
 
 ### Install the environment
 
@@ -114,12 +114,23 @@ response = tokenizer.decode(output[0][input_ids.shape[-1]:], skip_special_tokens
 
 We provide the scripts we used to evaluate LIFT in `shells`, which are detailed as following.
 
+### Generate Gated Memory checkpoints
+
+We use our Gated Memory adapter for Llama 3 in our experiments. Run the following script to generate a Gated Memory checkpoint from *Meta-Llama-3-8B-Instruct*:
+
+```shell
+mkdir models
+python scripts/prepare_gated_memory_ckp.py -I <Meta-Llama-3-8B-Instruct path> -O models/Gated-Memory-Llama-3-8B-Instruct
+```
+
+:warning: You probably need to modify the `--model_name_or_path` and `--generator_name_or_path` in the scripts to the local paths / HF model names.
+
 ### Main results
 
 ![LooGLE main results](./assets/main_loogle.png)
 
 | Model   | Method | Subtask | Script path                                |
-|:-------:|:------:|:-------:|:------------------------------------------:|
+|:-------:|:------:|:-------:|:-------------------------------------------|
 | Llama 3 | ICL    | ShortQA | `shells/LooGLE_main/Llama-ICL-ShortQA.sh`  |
 | Llama 3 | ICL    | LongQA  | `shells/LooGLE_main/Llama-ICL-LongQA.sh`   |
 | Llama 3 | LIFT   | ShortQA | `shells/LooGLE_main/Llama-LIFT-ShortQA.sh` |
@@ -132,7 +143,7 @@ We provide the scripts we used to evaluate LIFT in `shells`, which are detailed 
 ![LongBench main results](./assets/main_longbench.png)
 
 | Model   | Method | Subtask            | Script path                                                |
-|:-------:|:------:|:------------------:|:----------------------------------------------------------:|
+|:-------:|:------:|:------------------:|:-----------------------------------------------------------|
 | Llama 3 | ICL    | GovReport          | `shells/LongBench_main/Llama-ICL-gov_report.sh`            |
 | Llama 3 | ICL    | Musique            | `shells/LongBench_main/Llama-ICL-musique.sh`               |
 | Llama 3 | ICL    | Narrativeqa        | `shells/LongBench_main/Llama-ICL-narrativeqa.sh`           |
@@ -143,3 +154,34 @@ We provide the scripts we used to evaluate LIFT in `shells`, which are detailed 
 | Llama 3 | LIFT   | Narrativeqa        | `shells/LongBench_main/Llama-LIFT-narrativeqa.sh`          |
 | Llama 3 | LIFT   | PassageRetrievalEN | `shells/LongBench_main/Llama-LIFT-passage_retrieval_en.sh` |
 | Llama 3 | LIFT   | Qmsum              | `shells/LongBench_main/Llama-LIFT-qmsum.sh`                |
+
+### Ablations
+
+![CT ablation](./assets/ablation_CT.png)
+
+| Subtask | Method | Script path                                |
+|:-------:|:------:|:-------------------------------------------|
+| ShortQA | w/o CT | `shells/CT_ablation/ShortQA-woCT.sh`       |
+| ShortQA | w/ CT  | `shells/LooGLE_main/Llama-LIFT-ShortQA.sh` |
+| LongQA  | w/o CT | `shells/CT_ablation/LongQA-woCT.sh`        |
+| LongQA  | w/ CT  | `shells/LooGLE_main/Llama-LIFT-LongQA.sh`  |
+
+![QA ablation](./assets/ablation_QA.png)
+
+| Subtask | #QA | Script path                                |
+|:-------:|:---:|:-------------------------------------------|
+| ShortQA | 0   | `shells/QA_ablation/ShortQA-woQA.sh`       |
+| ShortQA | 10  | `shells/LooGLE_main/Llama-LIFT-ShortQA.sh` |
+| ShortQA | 30  | `shells/QA_ablation/ShortQA-30QA.sh`       |
+| LongQA  | 0   | `shells/QA_ablation/LongQA-woQA.sh`        |
+| LongQA  | 10  | `shells/LooGLE_main/Llama-LIFT-LongQA.sh`  |
+| LongQA  | 30  | `shells/QA_ablation/LongQA-30QA.sh`        |
+
+![Gate ablation](./assets/ablation_gate.png)
+
+| Subtask | Adapter      | Script path                                |
+|:-------:|:------------:|:-------------------------------------------|
+| ShortQA | Gated Memory | `shells/LooGLE_main/Llama-LIFT-ShortQA.sh` |
+| ShortQA | PiSSA        |
+| LongQA  | Gated Memory | `shells/LooGLE_main/Llama-LIFT-LongQA.sh`  |
+| LongQA  | PiSSA        |

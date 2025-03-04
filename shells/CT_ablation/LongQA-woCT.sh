@@ -1,13 +1,15 @@
 python scripts/mp_wrapper.py \
-    --script scripts/test_loogle_lift_random_icl_prompt.py \
-    --num_process 6 \
-    --input_file datasets/loogle/shortdep_qa.jsonl \
-    --output_file outputs/main_shortqa_qa10.jsonl \
+    --script scripts/test_loogle_lift_nosegicl_prompt.py \
+    --num_process 4 \
+    --input_file datasets/loogle/longdep_qa.jsonl \
+    --output_file outputs/LooGLE-LongQA-Gate-QA10-C3M5.jsonl \
     --subprocess_args \
-    --overwrite False \
+    --overwrite True \
     --num_syn_qa 10 \
     --title_option 1 \
     --generator_name_or_path models/Meta-Llama-3-8B-Instruct \
+    --use_cot False \
+    --use_icl True \
     --model_name_or_path models/Gated-Memory-Llama-3-8B-Instruct \
     --model_max_length 7800 \
     --block_size 256 \
@@ -15,17 +17,15 @@ python scripts/mp_wrapper.py \
     --len_offset 3 \
     --use_gated_memory True \
     --load_in_4bit True \
-    --use_lora False \
-    --use_cot False \
     --gather_batches True \
     --involve_qa_epochs 5 \
     --num_train_epochs 3 \
-    --remove_unused_columns True \
+    --learning_rate 1e-3 \
+    --remove_unused_columns False \
     --report_to none \
     --output_dir models/temp \
     --overwrite_output_dir True \
     --per_device_train_batch_size 1 \
-    --learning_rate 1e-3 \
     --weight_decay 1e-4 \
     --adam_beta1 0.9 \
     --adam_beta2 0.98 \
