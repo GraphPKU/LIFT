@@ -179,9 +179,9 @@ python scripts/prepare_gated_memory_ckp.py -I <Meta-Llama-3-8B-Instruct path> -O
 
 ![Gate ablation](./assets/ablation_gate.png)
 
-| Subtask | Adapter      | Script path                                |
-|:-------:|:------------:|:-------------------------------------------|
-| ShortQA | Gated Memory | `shells/LooGLE_main/Llama-LIFT-ShortQA.sh` |
-| ShortQA | PiSSA        |
-| LongQA  | Gated Memory | `shells/LooGLE_main/Llama-LIFT-LongQA.sh`  |
-| LongQA  | PiSSA        |
+| Subtask | Adapter      | Script path                                    |
+|:-------:|:------------:|:-----------------------------------------------|
+| ShortQA | Gated Memory | `shells/LooGLE_main/Llama-LIFT-ShortQA.sh`     |
+| ShortQA | PiSSA        | `shells/GatedMemory_ablation/PiSSA-ShortQA.sh` |
+| LongQA  | Gated Memory | `shells/LooGLE_main/Llama-LIFT-LongQA.sh`      |
+| LongQA  | PiSSA        | `shells/GatedMemory_ablation/PiSSA-LongQA.sh`  |

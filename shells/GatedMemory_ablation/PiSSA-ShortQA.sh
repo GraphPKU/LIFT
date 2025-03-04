@@ -1,0 +1,44 @@
+python scripts/mp_wrapper.py \
+    --script scripts/test_loogle_lift_random_icl_prompt.py \
+    --num_process 8 \
+    --input_file datasets/loogle/shortdep_qa.jsonl \
+    --output_file outputs/main_pissa_shortqa_qa10.jsonl \
+    --subprocess_args \
+    --overwrite False \
+    --num_syn_qa 10 \
+    --title_option 1 \
+    --generator_name_or_path models/Meta-Llama-3-8B-Instruct \
+    --model_name_or_path models/Meta-Llama-3-8B-Instruct-pissa-r128 \
+    --model_max_length 7800 \
+    --block_size 256 \
+    --len_segment 8 \
+    --len_offset 3 \
+    --use_gated_memory False \
+    --load_in_4bit True \
+    --use_lora True \
+    --use_pissa True \
+    --lora_rank 128 \
+    --use_cot False \
+    --gather_batches True \
+    --involve_qa_epochs 3 \
+    --num_train_epochs 2 \
+    --remove_unused_columns True \
+    --report_to none \
+    --output_dir models/temp \
+    --overwrite_output_dir True \
+    --per_device_train_batch_size 1 \
+    --learning_rate 1e-5 \
+    --weight_decay 1e-4 \
+    --adam_beta1 0.9 \
+    --adam_beta2 0.98 \
+    --adam_epsilon 1e-8 \
+    --max_grad_norm 1.0 \
+    --log_level info \
+    --logging_strategy steps \
+    --logging_steps 1 \
+    --save_strategy no \
+    --bf16 True \
+    --tf32 False \
+    --gradient_checkpointing True \
+    --lr_scheduler_type constant
+
